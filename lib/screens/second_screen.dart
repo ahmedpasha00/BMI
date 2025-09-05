@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class SecondScreen extends StatefulWidget {
   final double Height;
   final int weight;
+
   SecondScreen({super.key, required this.Height, required this.weight});
 
   @override
@@ -22,8 +23,37 @@ class _SecondScreenState extends State<SecondScreen> {
     bmi = widget.weight / (heightInMeter * heightInMeter);
   }
 
+  dd bmiText(double value) {
+    if (value < 18.5) {
+      return dd(
+        Colors: Colors.greenAccent,
+        discripshon: "You are underweight. Try to eat healthy meals.",
+        text: "Underweight",
+      );
+    } else if (value >= 18.5 && value <= 24.9) {
+      return dd(
+        Colors: const Color.fromARGB(255, 19, 82, 21),
+        discripshon: "You have a normal body weight. Good job!",
+        text: "Normal",
+      );
+    } else if (value >= 25 && value <= 29.9) {
+      return dd(
+        Colors: Colors.orange,
+        discripshon: "You are overweight. Exercise regularly.",
+        text: "Overweight",
+      );
+    } else {
+      return dd(
+        Colors: Colors.red,
+        discripshon: "You are obese. Consider a healthy lifestyle plan.",
+        text: "Obese",
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final result = bmiText(bmi);
     return Scaffold(
       appBar: AppBar(title: Text("BMI Calculator")),
       body: Column(
@@ -56,9 +86,9 @@ class _SecondScreenState extends State<SecondScreen> {
                   Padding(
                     padding: const EdgeInsets.all(58.0),
                     child: Text(
-                      "Normal",
+                      result.text,
                       style: TextStyle(
-                        color: Color(0xff21BF73),
+                        color: result.Colors,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
@@ -73,7 +103,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     ),
                   ),
                   Text(
-                    "You Have a Normal Body Weight,\nGood Job.",
+                    result.discripshon,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xff8B8C9E),
@@ -114,4 +144,12 @@ class _SecondScreenState extends State<SecondScreen> {
       ),
     );
   }
+}
+
+class dd {
+  Color Colors;
+  String discripshon;
+  String text;
+
+  dd({required this.Colors, required this.discripshon, required this.text});
 }
