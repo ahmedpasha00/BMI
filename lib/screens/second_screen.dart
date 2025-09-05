@@ -1,7 +1,26 @@
+import 'package:earesoft_flutter/bmi.dart';
+import 'package:earesoft_flutter/screens/first_screens.dart';
 import 'package:flutter/material.dart';
 
-class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
+class SecondScreen extends StatefulWidget {
+  final double Height;
+  final int weight;
+  SecondScreen({super.key, required this.Height, required this.weight});
+
+  @override
+  State<SecondScreen> createState() => _SecondScreenState();
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  late double bmi; // تعريف متغير bmi
+
+  @override
+  void initState() {
+    super.initState();
+    // هنا يتحسب مرة واحدة لما الصفحة تفتح
+    double heightInMeter = widget.Height / 100;
+    bmi = widget.weight / (heightInMeter * heightInMeter);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +65,7 @@ class SecondScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "19.2",
+                    bmi.toStringAsFixed(2),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 64,
@@ -69,15 +88,21 @@ class SecondScreen extends StatelessWidget {
         ],
       ),
 
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(top: 49),
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          Navigator.pop(
+            context,
+            MaterialPageRoute(builder: (context) => FirstScreens()),
+          );
+        },
+
         child: Container(
           height: 100,
           width: double.infinity, // خليها تاخد عرض الشاشة كله
           color: Colors.pink,
           child: Center(
             child: Text(
-              "Re - Calculate",
+              "Re _ Calculate",
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w600,
